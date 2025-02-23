@@ -1,0 +1,12 @@
+<p>task-component works!</p>
+<div>
+  <!-- Botón que llama a la función loadTasks -->
+  <button (click)="loadTasks()">Cargar tareas</button>
+
+  <!-- Mostrar las tareas -->
+  <ul>
+    <li *ngFor="let item of items$ | async">
+      {{ item.title }} - {{ item.description }}
+    </li>
+  </ul>
+</div>
