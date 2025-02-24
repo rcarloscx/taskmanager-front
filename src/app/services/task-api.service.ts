@@ -16,27 +16,27 @@ export class TaskApiService {
   // Obtener todas las tareas
   getTasks() {
     console.log("get task");
-    return this.http.get<Task[]>('http://localhost:8080/api/task');
+    return this.http.get<Task[]>('http://34.45.249.205:8080/api/task');
   }
 
   // Obtener una tarea por su ID
   getTask(id: number) {
-    return this.http.get('http://localhost:8080/api/task' + id);
+    return this.http.get('http://34.45.249.205:8080/api/task' + id);
   }
 
   // Crear una nueva tarea
   saveTask(task: Task) {
-    return this.http.post<Task>('http://localhost:8080/api/task', task);
+    return this.http.post<Task>('http://34.45.249.205:8080/api/task', task);
   }
 
   // Actualizar una tarea existente
   updateTask(task: Task) {
     console.log("id: "+task.status);
-    return this.http.put<Task>('http://localhost:8080/api/task/' + task.idTask, task);
+    return this.http.put<Task>('http://34.45.249.205:8080/api/task/' + task.idTask, task);
   }
 
   // Eliminar una tarea por ID
   deleteTask(id: number) {
-    return this.http.delete<Task>('http://localhost:8080/api/task/' + id);
+    return this.http.delete<Task>('http://34.45.249.205:8080/api/task/' + id);
   }
 }
