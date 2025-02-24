@@ -1,12 +1,84 @@
-<p>task-component works!</p>
-<div>
-  <!-- Botón que llama a la función loadTasks -->
-  <button (click)="loadTasks()">Cargar tareas</button>
+<div class="mt-5 d-flex justify-content-center">
+  <div class="card-container col-md-8">
 
-  <!-- Mostrar las tareas -->
-  <ul>
-    <li *ngFor="let item of items$ | async">
-      {{ item.title }} - {{ item.description }}
-    </li>
-  </ul>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="title">Título</label>
+          <input type="text" id="title" class="form-control" [(ngModel)]="newTask.title" name="title"
+            placeholder="Título de la tarea" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="status">Estado</label>
+            <select class="custom-select" id="status" [(ngModel)]="newTask.status" name="status" required>
+            <option selected disabled value="">Seleccionar...</option>
+            <option value="1">Por Hacer</option>
+            <option value="2">En Progreso</option>
+            <option value="3">Completada</option>
+          </select>
+          <div class="invalid-feedback">
+            Please select a valid state.
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="description">Descripción</label>
+          <input type="text" id="description" class="form-control" [(ngModel)]="newTask.description" name="description"
+            placeholder="Descripción de la tarea" required>
+        </div>
+      </div>
+
+      <div *ngIf="isViewingTask" class="d-flex justify-content-center">
+        <button type="button" class="btn btn-warning btn-lg w-25 mx-2" (click)="editTask()">Editar</button>
+        <button type="button" class="btn btn-danger btn-lg w-25 mx-2" (click)="deleteTask()">Eliminar</button>
+        <button type="button" class="btn btn-secondary btn-lg w-25 mx-2" (click)="cancelView()">Nuevo</button>
+      </div>
+
+      <div *ngIf="!isViewingTask" class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary btn-lg w-50">Guardar</button>
+      </div>
+      <br>
+    </form>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID Tarea</th>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tasks">
+          <td>{{ item.idTask }}</td>
+          <td>{{ item.title }}</td>
+          <td>{{ item.description }}</td>
+          <td>
+            <span class="badge">
+              {{ getStatusText(item.status) }}
+            </span>
+          </td>          
+          <td>
+            <button class="btn btn-info" (click)="viewTask(item)">Visualizar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+          <button class="page-link" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Anterior</button>
+        </li>
+        <li *ngFor="let page of getPageNumbers()" class="page-item" [ngClass]="{'active': page === currentPage}">
+          <button class="page-link" (click)="changePage(page)">{{ page }}</button>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': currentPage === getPageNumbers().length}">
+          <button class="page-link" (click)="changePage(currentPage + 1)" [disabled]="currentPage === getPageNumbers().length">Siguiente</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </div>

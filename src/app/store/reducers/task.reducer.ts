@@ -1,11 +1,13 @@
 import { TaskState } from '../state/task.state';
 import { createReducer, on } from '@ngrx/store';
 import * as taskActions from '../actions/task.actions';
+import { Task } from '../../models/task';
 
 export const initialState: TaskState = {
   items: [],
   isLoading: false,
-  error: null
+  error: null,
+  selectedTask: null,
 };
 
 export const taskReducer = createReducer(
@@ -53,6 +55,7 @@ export const taskReducer = createReducer(
     ...state,
     isLoading: false,
     selectedTask: item,
+    items: [...state.items, item],
     error: null
   })),
  

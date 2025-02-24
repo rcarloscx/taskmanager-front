@@ -37,7 +37,8 @@ export class TaskStoreEffects {
                 const tasks: Task[] = items.map(item => ({
                   idTask: item.idTask,
                   title: item.title,
-                  description: item.description
+                  description: item.description,
+                  status: item.status
                 }));
                 console.log(tasks.length);
                 console.log("Tasks fetched:", tasks);
@@ -54,7 +55,7 @@ export class TaskStoreEffects {
       saveRequestEffect$ = createEffect(() => this.actions$.pipe(
         ofType(taskActions.saveRequestAction),
           switchMap(action => {
-            const subject = "Task";      
+            const subject = "Task";    
             return this.taskApiService.saveTask(action.item).pipe(
               map((item: any) => {
                   return taskActions.saveSuccessAction({ item })
@@ -69,6 +70,8 @@ export class TaskStoreEffects {
       updateRequestEffect$ = createEffect(() => this.actions$.pipe(
         ofType(taskActions.updateRequestAction),
         switchMap(action => {
+          console.log("action"+action.item.status);
+          
           return this.taskApiService.updateTask(action.item).pipe(
               map((item: any) => {
                   return taskActions.updateSuccessAction({ item })

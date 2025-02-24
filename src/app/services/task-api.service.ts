@@ -31,11 +31,12 @@ export class TaskApiService {
 
   // Actualizar una tarea existente
   updateTask(task: Task) {
-    return this.http.post<Task>('http://localhost:8080/api/task' + task.idTask, task);
+    console.log("id: "+task.status);
+    return this.http.put<Task>('http://localhost:8080/api/task/' + task.idTask, task);
   }
 
   // Eliminar una tarea por ID
   deleteTask(id: number) {
-    return this.http.delete<Task>('http://localhost:8080/api/task' + id);
+    return this.http.delete<Task>('http://localhost:8080/api/task/' + id);
   }
 }
